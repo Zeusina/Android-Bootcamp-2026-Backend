@@ -1,0 +1,120 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-init
+      author: blackbox
+      rollback:
+        - sql:
+            splitStatements: false
+            stripComments: true
+            sql: DROP TYPE ID EXISTS participant_status;
+        - dropTable:
+            tableName: users
+            cascadeConstraints: true
+        - dropTable:
+            tableName: meetings
+            cascadeConstraints: true
+        - dropTable:
+            tableName: meeting_participants
+            cascadeConstraints: true
+      changes:
+        - sql:
+            splitStatements: false
+            stripComments: true
+            sql: |
+              CREATE TYPE participant_status AS ENUM (
+              'PENDING',
+              'ACCEPTED',
+              'DECLINED'
+              );
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: first_name
+                  type: varchar(120)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(120)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: varchar(120)
+              - column:
+                  name: department
+                  type: varchar(120)
+              - column:
+                  name: avatar_url
+                  type: varchar(120)
+
+        - createTable:
+            tableName: meetings
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: organizer_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_time
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_time
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+        - createTable:
+            tableName: meeting_participants
+            columns:
+              - column:
+                  name: meeting_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: participant_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: participant_status
+                  type: participant_status
+                  constraints:
+                    nullable: false
