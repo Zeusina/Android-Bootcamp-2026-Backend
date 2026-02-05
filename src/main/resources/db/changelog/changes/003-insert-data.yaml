@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-insert-data
+      author: blackbox
+      changes:
+        - loadData:
+            file: db/changelog/data/users.csv
+            relativeToChangelogFile: false
+            separator: ","
+            quotchar: '"'
+            tableName: users
+        - loadData:
+            file: db/changelog/data/meetings.csv
+            relativeToChangelogFile: false
+            separator: ","
+            quotchar: '"'
+            tableName: meetings
+        - loadData:
+            file: db/changelog/data/meeting_participants.csv
+            relativeToChangelogFile: false
+            separator: ","
+            quotchar: '"'
+            tableName: meeting_participants

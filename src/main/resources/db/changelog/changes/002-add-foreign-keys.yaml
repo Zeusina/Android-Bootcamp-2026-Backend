@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-add-foreign-keys
+      author: blackbox
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: meetings
+            baseColumnNames: organizer_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: organizer
+        - addForeignKeyConstraint:
+            baseTableName: meeting_participants
+            baseColumnNames: participant_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: participant
+        - addForeignKeyConstraint:
+            baseTableName: meeting_participants
+            baseColumnNames: meeting_id
+            referencedTableName: meetings
+            referencedColumnNames: id
+            constraintName: meeting
